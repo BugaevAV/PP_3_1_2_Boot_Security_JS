@@ -19,8 +19,7 @@
         <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" />
         <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" />
         <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" />
-        <select th:name="role_name" class="form-control col-4 mb-4">
-            <option value=""> -- users roles -- </option>
+        <select th:name="role_names" multiple class="form-control col-4 mb-4">
             <option th:each="role: ${roles}"
                     th:value="${role.name}"
                     th:text="${role.name}"/>
@@ -28,7 +27,7 @@
         <button type="submit" class="btn btn-primary col-2">Save</button>
     </form>
     <hr/>
-    <a th:href="@{/}">Back to list</a>
+    <a th:href="@{/admin}">Back to admin panel</a>
 </div>
 
 </body>

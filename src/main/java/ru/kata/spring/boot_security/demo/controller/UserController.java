@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -51,21 +52,36 @@ public class UserController {
     public String newUserForm(ModelMap model) {
         model.addAttribute("user", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "user_form";
+        return "new_user_form";
     }
 
     @Transactional
     @PostMapping("/admin/save_user")
-    public String saveNewUser(@ModelAttribute("user") User user, @RequestParam("role_name") String roleName) {
+    public String saveNewUser(@ModelAttribute("user") User user,
+                              @RequestParam("role_names") List<String> roleNames) {
         User newUser = userService.addUser(user);
-        Role role = roleService.getRoleByName(roleName);
-        newUser.getRoles().add(role);
+        List<Role> roles = roleNames.stream()
+                .map(roleService::getRoleByName)
+                .collect(Collectors.toList());
+        newUser.setRoles(roles);
+        return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/update_user/{id}")
+    public String updateUserForm(@PathVariable Long id, ModelMap model) {
+        Optional<User> user = userService.findById(id);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            model.addAttribute("roles", roleService.getAllRoles());
+            model.addAttribute("chosen_role", user.get().getRoles());
+            return "update_user_form";
+        }
         return "redirect:/admin";
     }
 
     @GetMapping("/admin/delete_user/{id}")
-    public String deleteUser(@PathVariable int id) {
-        Optional<User> user = userService.findById((long) id);
+    public String deleteUser(@PathVariable Long id) {
+        Optional<User> user = userService.findById(id);
         user.ifPresent(userService::removeUser);
         return "redirect:/admin";
     }
