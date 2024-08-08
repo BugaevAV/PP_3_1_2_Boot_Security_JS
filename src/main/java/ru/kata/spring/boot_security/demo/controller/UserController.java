@@ -73,9 +73,21 @@ public class UserController {
         if (user.isPresent()) {
             model.addAttribute("user", user.get());
             model.addAttribute("roles", roleService.getAllRoles());
-            model.addAttribute("chosen_role", user.get().getRoles());
+            model.addAttribute("chosen_roles", user.get().getRoles());
             return "update_user_form";
         }
+        return "redirect:/admin";
+    }
+
+    @Transactional
+    @PostMapping("/admin/update_user/{id}")
+    public String updateUser(@ModelAttribute("user") User user,
+                             @RequestParam("role_names") List<String> roleNames) {
+        User updatedUser = userService.addUser(user);
+        List<Role> roles = roleNames.stream()
+                .map(roleService::getRoleByName)
+                .collect(Collectors.toList());
+        updatedUser.setRoles(roles);
         return "redirect:/admin";
     }
 
