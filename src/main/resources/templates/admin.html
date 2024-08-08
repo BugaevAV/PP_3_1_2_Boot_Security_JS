@@ -1,5 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<style>
+    .buttons-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
 <head>
     <title>List users</title>
     <meta charset="UTF-8">
@@ -15,8 +21,12 @@
 
     <h3>List users</h3>
 
+
     <hr/>
-    <a th:href="@{/admin/new_user}" class="btn btn-primary"> + Add user</a>
+        <div class="buttons-container">
+            <a th:href="@{/admin/new_user}" class="btn btn-primary"> + Add user</a>
+            <div th:insert="logout_btn :: logout"></div>
+        </div>
     <br/><br/>
     <table class="table table-bordered table-striped">
 
@@ -42,8 +52,8 @@
             </td>
         </tr>
         </tbody>
-
     </table>
+    <a th:href="@{/user_page}">Go to personal page</a>
 </div>
 
 

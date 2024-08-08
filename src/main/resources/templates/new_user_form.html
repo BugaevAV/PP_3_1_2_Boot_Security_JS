@@ -11,10 +11,13 @@
 <body>
 
 <div class="container">
-
-    <h3>Add new user</h3>
+    <div class="d-flex justify-content-start mb-30">
+        <h3>Add new user</h3>
+    </div>
     <hr/>
-
+    <div class="d-flex justify-content-end mb-4 mt-4 ml-30">
+        <div th:insert="logout_btn :: logout"></div>
+    </div>
     <form th:action="@{/admin/save_user}" th:object="${user}" method="POST" accept-charset="UTF-8">
         <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" />
         <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" />
