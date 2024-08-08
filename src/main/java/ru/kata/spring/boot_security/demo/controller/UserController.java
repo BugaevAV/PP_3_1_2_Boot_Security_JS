@@ -28,9 +28,12 @@ public class UserController {
         return "index";
     }
 
+    @Transactional
     @PostMapping("/save_user")
     public String saveUser(@ModelAttribute("user") User user) {
-        userService.addUser(user);
+        User registredUser = userService.addUser(user);
+        Role userRole = roleService.getRoleByName("ROLE_USER");
+        registredUser.getRoles().add(userRole);
         return "redirect:/login";
     }
 
