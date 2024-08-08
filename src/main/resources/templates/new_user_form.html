@@ -19,9 +19,9 @@
         <div th:insert="logout_btn :: logout"></div>
     </div>
     <form th:action="@{/admin/save_user}" th:object="${user}" method="POST" accept-charset="UTF-8">
-        <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" />
-        <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" />
-        <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" />
+        <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" required />
+        <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" required />
+        <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" required />
         <select th:name="role_names" multiple class="form-control col-4 mb-4">
             <option th:each="role: ${roles}"
                     th:value="${role.name}"
