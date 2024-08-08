@@ -41,6 +41,7 @@
         </tr>
         </tbody>
     </table>
+    <a th:href="@{/admin}" th:if="${role_names.contains('ROLE_ADMIN')}">Go to admin panel</a>
 </div>
 
 </body>

@@ -41,6 +41,8 @@ public class UserController {
     public String userPage(HttpSession session, ModelMap model) {
         User user = (User)session.getAttribute("user");
         model.addAttribute("user", user);
+        model.addAttribute("role_names", user.getRoles().stream()
+                .map(Role::getName).collect(Collectors.toList()));
         return "user";
     }
 
