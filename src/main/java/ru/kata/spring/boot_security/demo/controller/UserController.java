@@ -63,12 +63,14 @@ public class UserController {
     @Transactional
     @PostMapping("/admin/save_user")
     public String saveNewUser(@ModelAttribute("user") User user,
-                              @RequestParam("role_names") List<String> roleNames) {
+                              @RequestParam(value = "role_names", required = false) List<String> roleNames) {
         User newUser = userService.addUser(user);
-        List<Role> roles = roleNames.stream()
-                .map(roleService::getRoleByName)
-                .collect(Collectors.toList());
-        newUser.setRoles(roles);
+        if (roleNames != null) {
+            List<Role> roles = roleNames.stream()
+                    .map(roleService::getRoleByName)
+                    .collect(Collectors.toList());
+            newUser.setRoles(roles);
+        }
         return "redirect:/admin";
     }
 
@@ -87,12 +89,14 @@ public class UserController {
     @Transactional
     @PostMapping("/admin/update_user/{id}")
     public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam("role_names") List<String> roleNames) {
+                             @RequestParam(value = "role_names", required = false) List<String> roleNames) {
         User updatedUser = userService.addUser(user);
-        List<Role> roles = roleNames.stream()
-                .map(roleService::getRoleByName)
-                .collect(Collectors.toList());
-        updatedUser.setRoles(roles);
+        if (roleNames != null) {
+            List<Role> roles = roleNames.stream()
+                    .map(roleService::getRoleByName)
+                    .collect(Collectors.toList());
+            updatedUser.setRoles(roles);
+        }
         return "redirect:/admin";
     }
 
