@@ -1,0 +1,7 @@
+<div th:fragment="top_nav(user)">
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand" th:text="${user}"></span>
+        <a th:href="@{/logout}" class="btn btn-outline-light btn-lg"  type="submit">Logout</a>
+    </nav>
+</div>
+

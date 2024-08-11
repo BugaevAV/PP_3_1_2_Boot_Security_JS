@@ -47,9 +47,10 @@ public class UserController {
     }
 
     @GetMapping("/admin")
-    public String adminPage(ModelMap model) {
+    public String adminPage(ModelMap model, HttpSession session) {
         List<User> users = userService.findAll();
         model.addAttribute("allUsers", users);
+        model.addAttribute("user", session.getAttribute("user"));
         return "admin";
     }
 

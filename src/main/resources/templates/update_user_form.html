@@ -14,10 +14,6 @@
 
     <h3>Update current user</h3>
     <hr/>
-    <div class="d-flex justify-content-end mb-4 mt-4 ml-30">
-        <div th:insert="logout_btn :: logout"></div>
-    </div>
-
     <form th:action="@{/admin/update_user/{id}(id=${user.getId()})}" th:object="${user}" method="POST" accept-charset="UTF-8">
         <input type="hidden" th:field="*{id}" />
         <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" required />
