@@ -48,17 +48,12 @@ public class UserController {
 
     @GetMapping("/admin")
     public String adminPage(ModelMap model, HttpSession session) {
-        List<User> users = userService.findAll();
-        model.addAttribute("allUsers", users);
-        model.addAttribute("user", session.getAttribute("user"));
-        return "admin";
-    }
-
-    @GetMapping("/admin/new_user")
-    public String newUserForm(ModelMap model) {
-        model.addAttribute("user", new User());
+        User thisUser = (User)session.getAttribute("user");
+        model.addAttribute("allUsers", userService.findAll());
+        model.addAttribute("thisUser", thisUser);
+        model.addAttribute("newUser", new User());
         model.addAttribute("roles", roleService.getAllRoles());
-        return "new_user_form";
+        return "admin";
     }
 
     @Transactional
