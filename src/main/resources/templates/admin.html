@@ -13,105 +13,138 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
         crossorigin="anonymous" />
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
-
 <body>
-<div th:replace="/fragments/top_navbar :: top_nav(${thisUser})"></div>
-<div class="container">
-  <br/><br/>
-  <h1>Admin panel</h1>
-  <hr/>
-  <nav>
-    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-      <a class="nav-item nav-link active" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="true">Users table</a>
-      <a class="nav-item nav-link" id="nav-new_user-tab" data-toggle="tab" href="#nav-new_user" role="tab" aria-controls="nav-new_user-tab" aria-selected="false">New user</a>
-    </div>
-  </nav>
-  <br/><br/>
-  <div class="tab-content" id="nav-tabContent">
+  <div th:replace="/fragments/top_navbar :: top_nav(${thisUser})"></div>
+  <br>
+  <br>
 
-    <!--all users table-->
-    <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
-        <h3 class="mb-5">Users table</h3>
-      <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Password</th>
-          <th>Roles</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user: ${allUsers}">
-            <td th:text="${user.getUsername()}" />
-            <td th:text="${user.getEmail()}" />
-            <td th:text="${user.getPassword()}" />
-            <td>
-                <p th:each="role: ${user.getRoles()}" th:text="${role.name}"/>
-            </td>
-            <td>
-                <a th:href="@{/admin/update_user/{id}(id=${user.getId()})}" class="btn btn-info">Update</a>
-            </td>
-            <td>
-                <a th:href="@{/admin/delete_user/{id}(id=${user.getId()})}" class="btn btn-secondary">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-      </table>
+  <div class="row">
+    <div class="col-2">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+           aria-controls="v-pills-home" aria-selected="true">Admin</a>
+        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+           aria-controls="v-pills-profile" aria-selected="false">User</a>
+      </div>
     </div>
-
-    <!--new user form-->
-    <div class="tab-pane fade" id="nav-new_user" role="tabpanel" aria-labelledby="nav-new_user-tab">
-          <h3 class="mb-5">Add new user</h3>
-        <form th:action="@{/admin/save_user}" th:object="${newUser}" method="POST" accept-charset="UTF-8">
-          <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" required />
-          <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" required />
-          <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" required />
-          <select th:name="role_names" multiple class="form-control col-4 mb-4">
-            <option th:each="role: ${roles}"
-                    th:value="${role.name}"
-                    th:text="${role.name}"/>
-          </select>
-          <button type="submit" class="btn btn-primary col-2">Save</button>
-        </form>
+    <div class="col-10">
+      <div class="container">
+      <div class="tab-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+        <h1>Admin panel</h1>
         <hr/>
+        <br/>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-users-tab" data-toggle="tab" href="#nav-users"
+               role="tab" aria-controls="nav-users" aria-selected="true">Users table</a>
+            <a class="nav-item nav-link" id="nav-new_user-tab" data-toggle="tab" href="#nav-new_user"
+               role="tab" aria-controls="nav-new_user-tab" aria-selected="false">New user</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+        <div class="card">
+          <div class="card-header h5">
+            All Users
+          </div>
+          <div class="card-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Roles</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="user: ${allUsers}">
+                <td th:text="${user.getUsername()}" />
+                <td th:text="${user.getEmail()}" />
+                <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;" th:text="${user.getPassword()}" />
+                <td>
+                    <p th:each="role: ${user.getRoles()}" th:text="${role.name}"/>
+                </td>
+                <td>
+                    <a th:href="@{/admin/update_user/{id}(id=${user.getId()})}" class="btn btn-info">Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/admin/delete_user/{id}(id=${user.getId()})}" class="btn btn-secondary">Delete</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        </div>
+        <!--new user form-->
+          <div class="tab-pane fade" id="nav-new_user" role="tabpanel" aria-labelledby="nav-new_user-tab">
+            <h3 class="mb-5">Add new user</h3>
+              <form th:action="@{/admin/save_user}" th:object="${newUser}" method="POST" accept-charset="UTF-8">
+                <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" required />
+                <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" required />
+                <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" required />
+                <select th:name="role_names" multiple class="form-control col-4 mb-4">
+                  <option th:each="role: ${roles}"
+                          th:value="${role.name}"
+                          th:text="${role.name}"/>
+                </select>
+                <button type="submit" class="btn btn-primary col-2">Save</button>
+              </form>
+              <hr/>
+          </div>
+        </div>
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          <h1>Personal information</h1>
+          <hr/>
+          <br/>
+          <div class="card">
+            <div class="card-header h5">
+              About user
+            </div>
+            <div class="card-body">
+            <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>My roles</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td th:text="${thisUser.getUsername()}" />
+                <td th:text="${thisUser.getEmail()}" />
+                <td th:text="${thisUser.getPassword()}" />
+                <td>
+                  <p th:each="role: ${thisUser.getRoles()}" th:text="${role.name}"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
     </div>
   </div>
 
-  <!--  update user form-->
-<!--  <div class="modal fade" id="updateForm" tabindex="-1" role="dialog" aria-labelledby="updateFormLabel" aria-hidden="true">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--      <div class="modal-content">-->
-<!--        <div class="modal-header">-->
-<!--          <h3 class="modal-title mb-5" id="updateFormLabel">Update user</h3>-->
-<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--            <span aria-hidden="true">&times;</span>-->
-<!--          </button>-->
-<!--        </div>-->
-<!--        <div class="modal-body">-->
-<!--          <form th:action="@{/admin/update_user}" method="POST" accept-charset="UTF-8">-->
-<!--            <input type="hidden" th:field="*{}" />-->
-<!--            <input type="text" th:field="*{username}" class="form-control col-4 mb-4" placeholder="Name" required />-->
-<!--            <input type="text" th:field="*{email}" class="form-control col-4 mb-4" placeholder="Email" required />-->
-<!--            <input type="text" th:field="*{password}" class="form-control col-4 mb-4" placeholder="Password" required />-->
-<!--            <select th:name="role_names" multiple class="form-control col-4 mb-4">-->
-<!--              <option th:each="role: ${roles}"-->
-<!--                      th:value="${role.name}"-->
-<!--                      th:text="${role.name}" th:selected="${chosen_roles.contains(role)}"/>-->
-<!--            </select>-->
-<!--            <button type="submit" class="btn btn-primary col-2">Save</button>-->
-<!--          </form>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-</div>
-
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
 </body>
 
 </html>
