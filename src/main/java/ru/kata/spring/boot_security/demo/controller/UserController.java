@@ -30,7 +30,7 @@ public class UserController {
 
     @Transactional
     @PostMapping("/save_user")
-    public String saveUser(@ModelAttribute("user") User user) {
+    public String registerUser(@ModelAttribute("user") User user) {
         User registredUser = userService.addUser(user);
         Role userRole = roleService.getRoleByName("ROLE_USER");
         registredUser.getRoles().add(userRole);
@@ -70,29 +70,9 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/update_user/{id}")
-    public String updateUserForm(@PathVariable Long id, ModelMap model) {
-        Optional<User> user = userService.findById(id);
-        if (user.isPresent()) {
-            model.addAttribute("user", user.get());
-            model.addAttribute("roles", roleService.getAllRoles());
-            model.addAttribute("chosen_roles", user.get().getRoles());
-            return "update_user_form";
-        }
-        return "redirect:/admin";
-    }
-
-    @Transactional
-    @PostMapping("/admin/update_user/{id}")
-    public String updateUser(@ModelAttribute("user") User user,
-                             @RequestParam(value = "role_names", required = false) List<String> roleNames) {
-        User updatedUser = userService.addUser(user);
-        if (roleNames != null) {
-            List<Role> roles = roleNames.stream()
-                    .map(roleService::getRoleByName)
-                    .collect(Collectors.toList());
-            updatedUser.setRoles(roles);
-        }
+    @PatchMapping("/admin/update_user")
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.addUser(user);
         return "redirect:/admin";
     }
 
