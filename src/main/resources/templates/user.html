@@ -1,43 +1,63 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>My info</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-          crossorigin="anonymous" />
+  <title>My info</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+        crossorigin="anonymous" />
 </head>
-
 <body>
 <div th:replace="/fragments/top_navbar :: top_nav(${user})"></div>
-<div class="container">
-    <h3>My personal information</h3>
-    <hr/>
-    <br/><br/>
-    <table class="table table-bordered table-striped">
-
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>My roles</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${user.getUsername()}" />
-            <td th:text="${user.getEmail()}" />
-            <td th:text="${user.getPassword()}" />
-            <td>
-                <p th:each="role: ${user.getRoles()}" th:text="${role.name}"/>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/admin}" th:if="${role_names.contains('ROLE_ADMIN')}">Go to admin panel</a>
-</div>
+<br>
+<br>
+<div class="row">
+  <div class="col-2">
+    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+         aria-controls="v-pills-profile" aria-selected="true">User</a>
+    </div>
+  </div>
+  <div class="col-10">
+      <div class="container">
+        <div class="tab-content" id="v-pills-tabContent">
+          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          </div>
+          <h1>Personal information</h1>
+          <hr/>
+          <br/>
+          <div class="card">
+            <div class="card-header h5">
+              About user
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Password</th>
+                  <th>My roles</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td th:text="${user.getUsername()}" />
+                  <td th:text="${user.getEmail()}" />
+                  <td th:text="${user.getPassword()}" />
+                  <td>
+                    <p th:each="role: ${user.getRoles()}" th:text="${role.name}"/>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
