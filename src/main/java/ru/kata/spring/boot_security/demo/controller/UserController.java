@@ -10,7 +10,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import javax.servlet.http.HttpSession;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/api/v1/")
 public class UserController {
 

@@ -27,6 +27,22 @@ public class User implements UserDetails {
     @ManyToMany
     private List<Role> roles = new ArrayList<>();
 
+    public User() {}
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(Long id, String username, String email, String password, List<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.getRoles().stream()
@@ -61,5 +77,9 @@ public class User implements UserDetails {
 
     public String toString() {
         return username + ", " + email;
+    }
+
+    public List<String> getRoleNames() {
+        return roles.stream().map(Role::getName).collect(Collectors.toList());
     }
 }
