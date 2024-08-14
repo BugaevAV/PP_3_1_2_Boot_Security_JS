@@ -15,6 +15,6 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request,
                        HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.sendRedirect("/");
+        response.sendRedirect("/login");
     }
 }
