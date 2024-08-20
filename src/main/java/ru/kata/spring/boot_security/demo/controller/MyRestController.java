@@ -70,8 +70,8 @@ public class MyRestController {
             if (!user.getUsername().equals(request.getUsername())) {
                 user.setUsername(request.getUsername());
             }
-            if (!request.getPassword().equals(user.getPassword())) {
-                user.setPassword(request.getPassword());
+            if (!(request.getPassword().equals(user.getPassword()))) {
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
             }
             if (!user.getEmail().equals(request.getEmail())) {
                 user.setEmail(request.getEmail());
