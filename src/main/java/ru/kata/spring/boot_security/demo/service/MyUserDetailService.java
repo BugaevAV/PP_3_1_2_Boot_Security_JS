@@ -18,11 +18,9 @@ public class MyUserDetailService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        Hibernate.initialize(user.get().getRoles());
         return user.orElseThrow(() -> new UsernameNotFoundException(username + " not found"));
     }
 }

@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
 import lombok.Data;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +27,7 @@ public class User implements UserDetails {
     @Column
     private String password;
     @ManyToMany
+    @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Role> roles = new ArrayList<>();
 
     public User() {}
