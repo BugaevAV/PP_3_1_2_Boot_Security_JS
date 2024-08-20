@@ -5,7 +5,7 @@ $('DOMContentLoaded', async function (){
     personalInfoTable()
 })
 
-const urlPrefix = '/api/v1/admin/';
+const urlPrefix = '/api/v1';
 const headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -15,7 +15,7 @@ async function getAdminTable() {
     let table = $('#adminTable tbody');
     table.empty();
 
-    let response = await fetch(urlPrefix + 'get_all_users');
+    let response = await fetch(urlPrefix + '/get_all_users');
     if (response.ok) {
         let users = await response.json();
         users.forEach(user => {
@@ -75,8 +75,8 @@ async function getGeneralModal() {
 }
 
 async function editUser(modal, id) {
-    let user = (await fetch(urlPrefix + 'get_user/' + id)).json();
-    let rolesExist = await (await fetch(urlPrefix + 'get_roles_exist')).json().then(
+    let user = (await fetch(urlPrefix + '/get_user/' + id)).json();
+    let rolesExist = await (await fetch(urlPrefix + '/get_roles_exist')).json().then(
         roles => roles
     );
 
@@ -133,8 +133,7 @@ async function editUser(modal, id) {
             password: password,
             roleNames: roleNames
         }
-        console.log(data)
-        const response = await fetch(urlPrefix + 'update_user/' + id, {
+        const response = await fetch(urlPrefix + '/update_user/' + id, {
             method: 'PATCH', headers: headers, body: JSON.stringify(data)
         })
 
@@ -156,8 +155,8 @@ async function editUser(modal, id) {
 }
 
 async function deleteUser(modal, id) {
-    let user = (await fetch(urlPrefix + 'get_user/' + id)).json();
-    let rolesExist = await (await fetch(urlPrefix + 'get_roles_exist')).json().then(
+    let user = (await fetch(urlPrefix + '/get_user/' + id)).json();
+    let rolesExist = await (await fetch(urlPrefix + '/get_roles_exist')).json().then(
         roles => roles
     );
 
@@ -202,7 +201,7 @@ async function deleteUser(modal, id) {
     })
 
     $("#deleteButton").on('click', async () => {
-        const response = await fetch(urlPrefix + 'delete_user/' + id, {
+        const response = await fetch(urlPrefix + '/delete_user/' + id, {
             method: 'DELETE', headers: headers
         })
 
@@ -243,7 +242,7 @@ async function addNewUser() {
             roleNames: rolesList
         }
 
-        await fetch(urlPrefix + 'add_new_user', {
+        await fetch(urlPrefix + '/add_new_user', {
             method: 'POST', headers: headers, body: JSON.stringify(data)
         });
         newUserForm.reset();
@@ -259,7 +258,7 @@ async function personalInfoTable() {
         let table = $('#adminPersonalInfo tbody');
         table.empty()
 
-        let response = await fetch(urlPrefix + 'personal_info')
+        let response = await fetch(urlPrefix + '/personal_info')
         if (response.ok) {
             let admin = await response.json();
             let html = `

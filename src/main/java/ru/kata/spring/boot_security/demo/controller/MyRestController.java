@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,59 +17,51 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/api/v1/admin")
+@RestController
+@RequestMapping("/api/v1")
 @AllArgsConstructor
-public class AdminController {
+public class MyRestController {
 
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping
-    public String getAdminPage(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("user", user);
-        return "admin";
-    }
-
     @SneakyThrows
-    @ResponseBody
     @GetMapping("/get_all_users")
     public List<User> adminPage() {
         return userService.findAll();
     }
 
+    @SneakyThrows
+    @GetMapping("/user_information")
+    public User getPersonalInformation(HttpSession session) {
+        return (User) session.getAttribute("user");
+    }
 
     @SneakyThrows
-    @ResponseBody
     @GetMapping("/get_roles_exist")
     public List<String> rolesExits() {
         return roleService.getAllRoles().stream()
                 .map(Role::getName).collect(Collectors.toList());
     }
 
-    @ResponseBody
     @GetMapping("/get_user/{id}")
     public User getUser(@PathVariable long id) {
         return userService.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    @ResponseBody
     @GetMapping("/personal_info")
     public User getAdminInfo(Model model, HttpSession session) {
         return (User) session.getAttribute("user");
     }
 
     @Transactional
-    @ResponseBody
     @PostMapping("/add_new_user")
     public void saveNewUser(@RequestBody UserRolesDTO request) {
         userService.addUser(request);
     }
 
     @Transactional
-    @ResponseBody
     @PatchMapping("/update_user/{id}")
     public void updateUser(@RequestBody UserRolesDTO request, @PathVariable long id) {
         Optional<User> currentUserState = userService.findById(id);
@@ -93,7 +84,6 @@ public class AdminController {
     }
 
     @Transactional
-    @ResponseBody
     @DeleteMapping("/delete_user/{id}")
     public void deleteUser(@PathVariable Long id) {
         Optional<User> user = userService.findById(id);
